@@ -78,7 +78,7 @@ def zero_crossing(x):
     return z
 
 def generate_features():
-    features = [None] * 18
+    features = [None] * 17
     features[0] = sum
     features[1] = np.mean
     features[2] = np.std
@@ -95,8 +95,8 @@ def generate_features():
     features[13] = kurtosis
     features[14] = power
     features[15] = log_energy
-    features[16] = peak_intensity
-    features[17] = zero_crossing
+    features[16] = max
+#    features[17] = zero_crossing
 #    features[18] = numpy.correlate
     return features
 
