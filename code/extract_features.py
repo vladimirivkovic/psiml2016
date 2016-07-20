@@ -62,8 +62,9 @@ def power(x):
 def log_energy(x):
     p = 0
 
-    for e in x:
-        p += np.log(e*e)
+    for el in x:
+        if el != 0:
+            p += np.log(el*el)
 
     return p
 def peak_intensity(x):
@@ -102,6 +103,9 @@ def generate_features():
 
 def get_features(data, features):
     ret = [None] * len(features)
+
+    if np.mean(data) == 0:
+        data[0] += 0.001
 
     for i in range(0, len(features)):
         ret[i] = features[i](data)
