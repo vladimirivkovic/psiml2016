@@ -100,12 +100,13 @@ def generate_features():
 #    features[18] = numpy.correlate
     return features
 
-def get_features(data):
-    features = generate_features()
+def get_features(data, features):
+    ret = [None] * len(features)
 
-    for sample in data:
-        for f in features:
-            print f(sample)
+    for i in range(0, len(features)):
+        ret[i] = features[i](data)
+
+    return ret
 
 def main():
     x = [[1,2,3],[2,3,4]]
