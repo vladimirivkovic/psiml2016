@@ -6,7 +6,6 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -21,9 +20,6 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -57,7 +53,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     private boolean timerStarted = false;
 
-    private TextView currentX, currentY, currentZ, maxX, maxY, maxZ, act;
+    private TextView currentX, currentY, currentZ, act;
 
     Classifier clf;
 
@@ -91,7 +87,7 @@ public class MainActivity extends Activity implements SensorEventListener {
             public void run() {
                 try {
                     while (!isInterrupted()) {
-                        Thread.sleep(50);
+                        Thread.sleep(20);
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -112,9 +108,9 @@ public class MainActivity extends Activity implements SensorEventListener {
         currentY = (TextView) findViewById(R.id.currentY);
         currentZ = (TextView) findViewById(R.id.currentZ);
 
-        maxX = (TextView) findViewById(R.id.maxX);
-        maxY = (TextView) findViewById(R.id.maxY);
-        maxZ = (TextView) findViewById(R.id.maxZ);
+//        maxX = (TextView) findViewById(R.id.maxX);
+//        maxY = (TextView) findViewById(R.id.maxY);
+//        maxZ = (TextView) findViewById(R.id.maxZ);
 
         act = (TextView) findViewById(R.id.act);
     }
@@ -147,15 +143,13 @@ public class MainActivity extends Activity implements SensorEventListener {
         displayMaxValues();
 
         // get the change of the x,y,z values of the accelerometer
-        deltaX = Math.abs(lastX - event.values[0]);
-        deltaY = Math.abs(lastY - event.values[1]);
-        deltaZ = Math.abs(lastZ - event.values[2]);
+        deltaX = event.values[0];
+        deltaY = event.values[1];
+        deltaZ = event.values[2];
 
-        // if the change is below 2, it is just plain noise
-//        if (deltaX < 2)
-//            deltaX = 0;
-//        if (deltaY < 2)
-//            deltaY = 0;
+//        deltaX = (float) Math.round(deltaX*100)*0.001f;
+//        deltaY = (float) Math.round(deltaY*100)*0.001f;
+//        deltaZ = (float) Math.round(deltaZ*100)*0.001f;
 
 //        if (!timerStarted) {
 //            new Timer().scheduleAtFixedRate(new TimerTask() {
@@ -184,18 +178,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     // display the max x,y,z accelerometer values
     public void displayMaxValues() {
-        if (deltaX > deltaXMax) {
-            deltaXMax = deltaX;
-            maxX.setText(Float.toString(deltaXMax));
-        }
-        if (deltaY > deltaYMax) {
-            deltaYMax = deltaY;
-            maxY.setText(Float.toString(deltaYMax));
-        }
-        if (deltaZ > deltaZMax) {
-            deltaZMax = deltaZ;
-            maxZ.setText(Float.toString(deltaZMax));
-        }
+//        if (deltaX > deltaXMax) {
+//            deltaXMax = deltaX;
+//            maxX.setText(Float.toString(deltaXMax));
+//        }
+//        if (deltaY > deltaYMax) {
+//            deltaYMax = deltaY;
+//            maxY.setText(Float.toString(deltaYMax));
+//        }
+//        if (deltaZ > deltaZMax) {
+//            deltaZMax = deltaZ;
+//            maxZ.setText(Float.toString(deltaZMax));
+//        }
     }
 
     private Classifier loadClassifier() {
@@ -231,9 +225,9 @@ public class MainActivity extends Activity implements SensorEventListener {
             } else if (pred == 2.0) {
                 activity = "standing";
             } else if (pred == 3.0) {
-                activity = "upstairs";
+                activity = "walking";
             } else if (pred == 4.0) {
-                activity = "downstairs";
+                activity = "walking";
             } else {
                 activity = "junk";
             }
@@ -331,11 +325,13 @@ public class MainActivity extends Activity implements SensorEventListener {
 //        Instances trainData = new Instances(br);
 //        trainData.setClassIndex(trainData.numAttributes() - 1);
 //        br.close();
-//        RandomForest rf = new RandomForest();
-//
-//        //   rf.buildClassifier(trainData);
-//        //Evaluation evaluation = new Evaluation(trainData);
-//        //evaluation.crossValidateModel(rf, trainData, numFolds, new Random(1));
+////        RandomForest rf = new RandomForest();
+////
+////        //   rf.buildClassifier(trainData);
+////        Evaluation evaluation = new Evaluation(trainData);
+////        evaluation.crossValidateModel(rf, trainData, numFolds, new Random(1));
+////
+////        Log.i("info", evaluation.toSummaryString("\nResults\n======\n", true));
 //
 //        RandomForest finalRF = new RandomForest();
 //        finalRF.buildClassifier(trainData);

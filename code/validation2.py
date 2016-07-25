@@ -116,7 +116,7 @@ def validate(filename):
     # Permutate samples
     samples = samples[rp, :]
 
-    classificators = {'SVM': svm.SVC(C=1000, gamma=1e-5),
+    classificators = {'SVM': svm.SVC(C=100, gamma=1e-5),
                       'DecisionTree': DecisionTreeClassifier(random_state=0),
                       'RandomForest': RandomForestClassifier(n_estimators=20),
                       'ExtraTrees' : ExtraTreesClassifier(n_estimators=25, random_state=0),
@@ -130,9 +130,9 @@ def validate(filename):
      samples[to:, 0:-1], samples[to:, -1])
 
 if __name__ == '__main__':
-    # generate_files(512)
-    # merge_activity_files()
-    # validate('../data/usc/all.csv')
-    generate_filesX(128)
-    merge_activity_filesX()
-    validate('../data/huawei-p7/all.csv')
+    generate_files(256)
+    merge_activity_files()
+    validate('../data/usc/all.csv')
+    # generate_filesX(64)
+    # merge_activity_filesX()
+    # validate('../data/huawei-p7/all.csv')
